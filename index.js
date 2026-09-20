@@ -1,27 +1,23 @@
 
-const http = require("http");
 const { handleCommand } = require("./commands");
 
-const PORT = process.env.PORT || 10000;
+async function main() {
+  console.log("Member:", await handleCommand("/ping", "member"));
 
-const server = http.createServer((req, res) => {
-  res.writeHead(200, {
-    "Content-Type": "text/plain"
-  });
+  console.log(
+    "Member admin command:",
+    await handleCommand("/admininfo", "member")
+  );
 
-  res.end("🤖 Messenger Group Bot is running!");
-});
+  console.log(
+    "Admin:",
+    await handleCommand("/admininfo", "admin")
+  );
 
-server.listen(PORT, () => {
-  console.log(`🤖 Server is running on port ${PORT}`);
-});
-
-console.log("🤖 Messenger Group Bot code loaded!");
-
-// Command system test
-async function testCommandSystem() {
-  const result = await handleCommand("/ping");
-  console.log("Command test:", result);
+  console.log(
+    "Owner:",
+    await handleCommand("/ownerinfo", "owner")
+  );
 }
 
-testCommandSystem();
+main().catch(console.error);
