@@ -1,27 +1,23 @@
 
-const { handleCommand } = require("./commands");
 
-async function test() {
-  const messages = [
-    "/ping",
-    "/help",
-    "/info",
-    "/uptime",
-    "/unknown",
-    "hello"
+const {
+  handleIncomingMessage
+} = require("./messageHandler");
+
+async function main() {
+  const testMessages = [
+    { body: "/ping", threadID: "test-thread" },
+    { body: "/help", threadID: "test-thread" },
+    { body: "Hello", threadID: "test-thread" },
+    { body: "", threadID: "test-thread" }
   ];
 
-  for (const message of messages) {
-    console.log("\n> " + message);
+  for (const message of testMessages) {
+    const result = await handleIncomingMessage(message);
 
-    const reply = await handleCommand(message);
-
-    if (reply) {
-      console.log(reply);
-    } else {
-      console.log("(Not a command)");
-    }
+    console.log("Input:", message.body);
+    console.log("Result:", result);
   }
 }
 
-test();
+main().catch(console.error);
