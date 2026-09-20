@@ -1,39 +1,30 @@
 
-const os = require("os");
+const http = require("http");
+const { handleCommand } = require("./commands");
 
-const startTime = Date.now();
+const PORT = process.env.PORT || 10000;
 
-const commands = {
-  ping: {
-    permission: "member",
-    execute: async () => "🏓 Pong! Bot is working."
-  },
+const server = http.createServer((req, res) => {
+  res.writeHead(200, {
+    "Content-Type": "text/plain; charset=utf-8"
+  });
 
-  help: {
-    permission: "member",
-    execute: async () => [
-      "🤖 BOT COMMANDS",
-      "",
-      "/ping - Check bot status",
-      "/help - Show commands",
-      "/info - Bot information",
-      "/uptime - Show uptime",
-      "/admininfo - Admin command",
-      "/ownerinfo - Owner command"
-    ].join("\n")
-  },
+  res.end("🤖 Messenger Group Bot is running!");
+});
 
-  info: {
-    permission: "member",
-    execute: async () => [
-      "🤖 Messenger Group Bot",
-      "Language: Node.js",
-      "Runtime: " + process.version,
-      "Platform: " + os.platform()
-    ].join("\n")
-  },
+server.listen(PORT, "0.0.0.0", () => {
+  console.log(`🤖 Server is running on port ${PORT}`);
+});
 
-  uptime: {
+// Basic command-system check
+async function testCommandSystem() {
+  console.log("Member:", await handleCommand("/ping", "member"));
+  console.log("Member admin command:", await handleCommand("/admininfo", "member"));
+  console.log("Admin:", await handleCommand("/admininfo", "admin"));
+  console.log("Owner:", await handleCommand("/ownerinfo", "owner"));
+}
+
+testCommandSystem().catch(console.error);
     permission: "member",
     execute: async () => {
       const seconds = Math.floor(
