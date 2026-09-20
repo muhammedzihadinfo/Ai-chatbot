@@ -1,23 +1,23 @@
 
-
-const {
-  handleIncomingMessage
-} = require("./messageHandler");
+const { handleCommand } = require("./commands");
 
 async function main() {
-  const testMessages = [
-    { body: "/ping", threadID: "test-thread" },
-    { body: "/help", threadID: "test-thread" },
-    { body: "Hello", threadID: "test-thread" },
-    { body: "", threadID: "test-thread" }
-  ];
+  console.log("Member:", await handleCommand("/ping", "member"));
 
-  for (const message of testMessages) {
-    const result = await handleIncomingMessage(message);
+  console.log(
+    "Member admin command:",
+    await handleCommand("/admininfo", "member")
+  );
 
-    console.log("Input:", message.body);
-    console.log("Result:", result);
-  }
+  console.log(
+    "Admin:",
+    await handleCommand("/admininfo", "admin")
+  );
+
+  console.log(
+    "Owner:",
+    await handleCommand("/ownerinfo", "owner")
+  );
 }
 
 main().catch(console.error);
