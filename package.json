@@ -1,0 +1,12 @@
+{
+  "name": "messenger-group-bot",
+  "version": "1.0.0",
+  "description": "Facebook Messenger group bot",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "@dongdev/fca-unofficial": "latest"
+  }
+}
